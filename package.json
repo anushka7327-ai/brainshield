@@ -1,0 +1,21 @@
+{
+  "name": "sentinel-drp",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Brand protection: look-alike domains, fake social accounts and copycat apps for any brand",
+  "scripts": {
+    "setup": "npm install && npm install --prefix server && npm install --prefix client && python -m pip install -r detection-service/requirements.txt",
+    "dev": "concurrently -k -n server,client,detect -c blue,green,yellow \"npm:dev:server\" \"npm:dev:client\" \"npm:dev:detection\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev:detection": "cd detection-service && python -m uvicorn main:app --host 127.0.0.1 --port 8001 --reload",
+    "build": "npm run build --prefix client",
+    "start": "npm start --prefix server",
+    "setup:frontend": "npm install --prefix frontend",
+    "dev:frontend": "npm run dev --prefix frontend -- -p 3000",
+    "dev:web": "concurrently -k -n server,frontend,detect -c blue,green,yellow \"npm:dev:server\" \"npm:dev:frontend\" \"npm:dev:detection\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
